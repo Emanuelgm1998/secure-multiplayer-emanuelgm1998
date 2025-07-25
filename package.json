@@ -1,0 +1,14 @@
+{
+  "name": "secure-multiplayer-emanuelgm1998",
+  "version": "1.0.0",
+  "description": "Secure real time multiplayer game for freeCodeCamp.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "4.17.1",
+    "helmet": "3.21.3",
+    "socket.io": "4.1.2"
+  }
+}

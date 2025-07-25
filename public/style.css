@@ -1,0 +1,9 @@
+body { background-color: #282c34; color: #ffffff; font-family: 'Roboto', sans-serif; text-align: center; margin: 0; padding-top: 2em; }
+h1 { color: #61dafb; }
+#main-container { display: flex; flex-direction: column; align-items: center; }
+#game-area { display: flex; justify-content: center; align-items: flex-start; gap: 2em; }
+#game-canvas { background-color: #20232a; border: 2px solid #61dafb; border-radius: 8px; }
+#score-board-container { background-color: #20232a; border: 2px solid #61dafb; border-radius: 8px; padding: 1em; width: 250px; text-align: left; }
+#score-board p { margin: 0.5em 0; font-size: 1.1em; border-bottom: 1px solid #444; padding-bottom: 0.5em; }
+#score-board p:last-child { border-bottom: none; }
+#score-board .my-score { font-weight: 700; color: #61dafb; }
