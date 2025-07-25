@@ -12,7 +12,13 @@ const io     = socketio(server);
 // ——— Seguridad tests 16‑19 ———
 app.use(helmet.hidePoweredBy({ setTo: 'PHP 7.4.3' })); // Test 19
 app.use(helmet.noSniff());                             // Test 16
-app.use(helmet.xssFilter());                           // Test 17
+
+// Test 17: X-XSS-Protection debe ser "0"
+app.use((req, res, next) => {
+  res.setHeader('X-XSS-Protection', '0');
+  next();
+});
+
 app.use(nocache());                                    // Test 18 (incluye Surrogate-Control)
 // ————————————————————————
 
