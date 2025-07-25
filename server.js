@@ -2,7 +2,6 @@ const express  = require('express');
 const http     = require('http');
 const socketio = require('socket.io');
 const helmet   = require('helmet');
-const nocache  = require('nocache');
 const path     = require('path');
 
 const app    = express();
@@ -10,16 +9,25 @@ const server = http.createServer(app);
 const io     = socketio(server);
 
 // ——— Seguridad tests 16‑19 ———
-app.use(helmet.hidePoweredBy({ setTo: 'PHP 7.4.3' })); // Test 19
-app.use(helmet.noSniff());                             // Test 16
+// Test 19: X-Powered-By
+app.use(helmet.hidePoweredBy({ setTo: 'PHP 7.4.3' }));
+// Test 16: X-Content-Type-Options
+app.use(helmet.noSniff());
 
-// Test 17: X-XSS-Protection debe ser "0"
+// Test 17: X-XSS-Protection = 0
 app.use((req, res, next) => {
   res.setHeader('X-XSS-Protection', '0');
   next();
 });
 
-app.use(nocache());                                    // Test 18 (incluye Surrogate-Control)
+// Test 18: No cache + Surrogate-Control (manual global middleware)
+app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  res.setHeader('Surrogate-Control', 'no-store');
+  next();
+});
 // ————————————————————————
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -65,11 +73,11 @@ io.on('connection', (socket) => {
     player.y = movementData.y;
 
     for (const id in collectibles) {
-      const collectible = collectibles[id];
-      const dx = player.x - collectible.x;
-      const dy = player.y - collectible.y;
-      if (Math.sqrt(dx * dx + dy * dy) < PLAYER_RADIUS + COLLECTIBLE_RADIUS) {
-        player.score += collectible.value;
+      const c = collectibles[id];
+      const dx = player.x - c.x;
+      const dy = player.y - c.y;
+      if (Math.hypot(dx, dy) < PLAYER_RADIUS + COLLECTIBLE_RADIUS) {
+        player.score += c.value;
         delete collectibles[id];
         io.emit('updateScore', player);
         io.emit('collectibleRemoved', id);
@@ -80,6 +88,6 @@ io.on('connection', (socket) => {
   });
 });
 
-const listener = server.listen(process.env.PORT || 3000, () => {
-  console.log('✅ Secure Multiplayer Game listening on port ' + listener.address().port);
+server.listen(process.env.PORT || 3000, () => {
+  console.log('✅ Secure Multiplayer Game listening on port ' + (process.env.PORT || 3000));
 });
