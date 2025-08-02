@@ -2,23 +2,31 @@ const express = require('express');
 const http = require('http');
 const socketio = require('socket.io');
 const helmet = require('helmet');
+const cors = require('cors');
 const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-// Seguridad: Tests 16, 17, 18, 19 de freeCodeCamp
+// Seguridad: Headers requeridos por los tests 16–19 de freeCodeCamp
 app.use(helmet.hidePoweredBy({ setTo: 'PHP 7.4.3' })); // Test 19
 app.use(helmet.noSniff());                             // Test 16
 app.use(helmet.xssFilter());                           // Test 17
 app.use(helmet.noCache());                             // Test 18
-app.use((req, res, next) => { // Middleware de cache para archivos estáticos también
+
+// Habilitar CORS para evitar errores en el evaluador
+app.use(cors());
+
+// Middleware extra para controlar caché en archivos estáticos
+app.use((req, res, next) => {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Expires', '0');
   next();
 });
+
+// Servir archivos estáticos desde /public
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Lógica del juego
@@ -78,6 +86,7 @@ io.on('connection', (socket) => {
   });
 });
 
+// Iniciar servidor
 const listener = server.listen(process.env.PORT || 3000, () => {
   console.log('✅ Secure Multiplayer Game listening on port ' + listener.address().port);
 });
