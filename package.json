@@ -1,16 +1,15 @@
 {
-  "name": "secure-multiplayer-emanuelgm1998",
+  "name": "secure-rt-multiplayer-game",
   "version": "1.0.0",
-  "description": "Secure real time multiplayer game for freeCodeCamp.",
-  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "helmet": "^3.23.3",
-    "nocache": "^4.0.0",
-    "socket.io": "^4.1.2"
+    "express": "^4.19.2",
+    "helmet": "3.21.3",
+    "socket.io": "^4.7.5"
   }
 }

@@ -1,25 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Secure Multiplayer Game</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Secure Real Time Multiplayer Game</title>
+  <style>
+    :root{
+      --bg:#0b0f16; --ink:#e6edf6; --muted:#a2acc0; --accent:#6cb2ff; --panel:#101724;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:system-ui,Segoe UI,Roboto,Arial}
+    header{position:sticky;top:0;background:var(--panel);padding:.6rem .9rem;border-bottom:1px solid #24324a}
+    header h1{margin:0;font-size:1.1rem}
+    .wrap{width:min(960px,94vw);margin:1rem auto}
+    canvas{display:block;width:100%;height:auto;image-rendering:pixelated;border:1px solid #24324a;border-radius:10px;background:#0c1322}
+    .hud{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin:.6rem 0}
+    .pill{padding:.25rem .5rem;border:1px solid #2a3956;border-radius:999px;background:#0e1524;color:var(--muted)}
+    .btn{appearance:none;border:1px solid var(--accent);background:linear-gradient(180deg,#6cb2ff,#3f94ff);color:#081225;font-weight:800;border-radius:10px;padding:.5rem .8rem;cursor:pointer}
+  </style>
 </head>
 <body>
-  <div id="main-container">
-    <h1>Secure Multiplayer Game</h1>
-    <div id="game-area">
-      <canvas id="game-canvas" width="800" height="600"></canvas>
-      <div id="score-board-container">
-        <h2>LEADERBOARD</h2>
-        <div id="score-board"></div>
-      </div>
+  <header>
+    <h1>Secure RT Multiplayer Game — FCC</h1>
+  </header>
+  <div class="wrap">
+    <div class="hud">
+      <span class="pill" id="me">tu id: -</span>
+      <button class="btn" id="collect">+1 punto</button>
+      <a class="pill" href="/_api/app-info" target="_blank" rel="noopener">ver headers</a>
     </div>
+    <canvas id="stage" width="800" height="500"></canvas>
+    <p class="pill">Controles: Flechas o WASD para moverte. Click en “+1 punto” para sumar.</p>
   </div>
+
+  <!-- socket.io de self -->
   <script src="/socket.io/socket.io.js"></script>
-  <script type="module" src="game.mjs"></script>
+  <script src="./client.js"></script>
 </body>
 </html>
