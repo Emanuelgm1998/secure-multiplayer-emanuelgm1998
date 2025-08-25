@@ -88,3 +88,9 @@ ETag y Last-Modified deshabilitados.
 ✔️ Todos los tests de freeCodeCamp superados (1–19).
 Certificado Information Security completado. 🎓
 
+👨‍💻 Autor
+© 2025 Emanuel — Licencia MIT
+
+🌐 LinkedIn
+https://www.linkedin.com/in/emanuel-gonzalez-michea/
+
